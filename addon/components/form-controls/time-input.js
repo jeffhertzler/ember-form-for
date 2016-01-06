@@ -3,7 +3,7 @@ import NumberInputComponent from './number-input';
 
 import { toTimeString } from '../../utils/date-to-string';
 
-const { set } = Ember;
+const { get, set } = Ember;
 
 export default NumberInputComponent.extend({
   type: 'time',
@@ -17,5 +17,14 @@ export default NumberInputComponent.extend({
     }
 
     set(this, 'timeValue', value);
+  },
+
+  sanitizeInput(value) {
+    let currentValue = get(this, 'value');
+    if (currentValue instanceof Date) {
+      return new Date(`${currentValue.toDateString()} ${value}`);
+    } else {
+      return value;
+    }
   }
 });
